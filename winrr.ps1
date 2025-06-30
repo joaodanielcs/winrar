@@ -1,0 +1,10 @@
+winget install --id RARLab.WinRAR --accept-package-agreements --accept-source-agreements --silent;
+$ProgressPreference = 'SilentlyContinue';
+Invoke-WebRequest -Uri "https://gist.githubusercontent.com/MuhammadSaim/de84d1ca59952cf1efaa8c061aab81a1/raw/ca31cbda01412e85949810d52d03573af281f826/rarreg.key" -OutFile "$env:ProgramFiles\WinRAR\rarreg.key";
+Invoke-WebRequest -Uri "https://gist.githubusercontent.com/joaodanielcs/0ee642f7d379305fcdaf4bd561a8f624/raw/0b32aaffa7bb23815c0baaec8231f1e0b6e8b92a/settings.reg" -OutFile "$env:ProgramFiles\WinRAR\settings.reg";
+$ProgressPreference = 'Continue';
+Start-Process -FilePath "$env:ProgramFiles\WinRAR\WinRAR.exe" -WindowStyle Hidden;
+Start-Sleep -Seconds 3;
+Get-Process WinRAR -ErrorAction SilentlyContinue | Stop-Process;
+sleep 5;
+Start-Process -FilePath "regedit.exe" -ArgumentList "/s `"$env:ProgramFiles\WinRAR\settings.reg`"" -Wait;
